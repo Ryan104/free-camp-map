@@ -16,10 +16,15 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from django.conf.urls import include
+#from django.views import views
+
 #For serving static files:
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^api/', include('api.urls')),
+    #url(r'^', views.ReactAppView.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) #Serve static files
