@@ -17,17 +17,14 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from django.conf.urls import include
-#from django.views import views
 
 #For serving static files:
-# from django.conf import settings
-# from django.conf.urls.static import static
 from . import views
-#from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('api.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')), # rest framework views
     url(r'^$', views.serve_react),
-] #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) #Serve static files
+]

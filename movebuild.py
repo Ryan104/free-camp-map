@@ -1,8 +1,11 @@
-import sys, shutil
+'''
+Copy files from React build folder into django's static file structure
+'''
+import shutil
 
-src = sys.argv[1]
-dst = sys.argv[2]
+SRC = 'frontend/'
+DST = 'backend/'
 
-shutil.copy(src + 'build/index.html', dst + 'templates/index.html')
-shutil.rmtree(dst + 'static')
-shutil.copytree(src + 'build/static', dst + 'static')
+shutil.copy(SRC + 'build/index.html', DST + 'templates/index.html')
+shutil.rmtree(DST + 'static')
+shutil.copytree(SRC + 'build/static', DST + 'static')
