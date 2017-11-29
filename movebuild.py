@@ -4,7 +4,7 @@ Copy files from React build folder into django's static file structure
 import shutil
 
 SRC = 'frontend/'
-DST = 'backend/'
+DST = './'
 
 shutil.copy(SRC + 'build/index.html', DST + 'templates/index.html')
 shutil.rmtree(DST + 'static')
