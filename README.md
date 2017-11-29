@@ -89,6 +89,9 @@ Trello: https://trello.com/b/tisXBo5l/free-sites
 - campsite: *Campsite_id*
 - rater: *User_id*
 
+#### ERD (mvp):
+![ERD](./mockups/mvp-erd.png)
+
 ## Wireframes/Mockups
 #### Mobile
 ![mobile-mock](./mockups/mobile-mockup.png)
