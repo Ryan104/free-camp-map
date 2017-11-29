@@ -91,12 +91,16 @@ Trello: https://trello.com/b/tisXBo5l/free-sites
 
 ## Wireframes/Mockups
 #### Mobile
+![mobile-mock](./mockups/mobile-mockup.png)
 
 #### Desktop
+![destop-mock](./mockups/desktop-mockup.png)
 
 #### Nav/Drawer
+![drawer-mock](./mockups/drawer-mockup.png)
 
 #### Detail component
+![detail-mock](./mockups/detail-mockup.png)
 
 #### Favorites list
-
+![favorites-mock](./mockups/favorites-mockup.png)
