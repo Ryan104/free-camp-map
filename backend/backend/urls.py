@@ -26,5 +26,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('api.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')), # rest framework views
     #url(r'^', views.ReactAppView.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) #Serve static files
