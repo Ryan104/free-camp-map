@@ -26,9 +26,13 @@ SECRET_KEY = '3wo=)e20jx@3@vuh8vpk)$h^-09p)0^6ebse)*8c4d&$rb)jd='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< HEAD
 ALLOWED_HOSTS = [
     'camp-free.herokuapp.com/',
 ]
+=======
+ALLOWED_HOSTS = ['*']
+>>>>>>> b1b7acaf9f59b1deb0bf496cb3877e798a97fd47
 
 
 # Application definition
@@ -87,7 +91,7 @@ DATABASES = {
         'NAME': 'campsites',
         'USER': 'dbuser',
         'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'HOST': '',
         'PORT': '',
     }
 }
@@ -132,11 +136,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+
 
 # React frontend
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, 'static'),
 )
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
