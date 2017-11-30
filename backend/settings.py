@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'campsites',
         'USER': 'dbuser',
         'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'HOST': '',
         'PORT': '',
     }
 }
