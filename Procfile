@@ -1,1 +1,1 @@
-web: gunicorn free-camp-map.wsgi --log-file -
+web: gunicorn backend.wsgi --log-file -
