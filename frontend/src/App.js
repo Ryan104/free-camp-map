@@ -9,8 +9,6 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import Marker from './components/Marker'
 
-require('dotenv').config()
-
 class App extends Component {
   render() {
     return (
@@ -23,10 +21,10 @@ class App extends Component {
           />
           <div style={styles.mapContainer}>
             <GoogleMap style={styles.mapComponent}
-              // bootstrapURLKeys={{
-              //   key: process.env.REACT_APP_MAP_KEY,
-              //   language: 'en'
-              // }}
+              bootstrapURLKeys={{
+                key: process.env.REACT_APP_MAP_KEY,
+                language: 'en'
+              }}
               defaultCenter={{lat: 37.9375, lng: -107.8123}}
               defaultZoom={11}
             >
