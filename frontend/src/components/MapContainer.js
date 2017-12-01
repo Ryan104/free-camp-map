@@ -3,10 +3,10 @@ import GoogleMap from 'google-map-react';
 import Marker from './Marker'
 
 const MapContainer = ({ markers = [], mapDefaultCenter, center }) => {
-    /*
-    Displays a google map with the markers provided by the props
-    The Google Maps API key is stored in the .env file
-    */
+    /**
+     * Displays a google map with the markers provided by the props
+     * The Google Maps API key is stored in the .env file
+     */
     return (
     <GoogleMap style={styles.mapComponent}
         bootstrapURLKeys={{

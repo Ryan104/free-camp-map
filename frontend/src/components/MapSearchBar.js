@@ -9,21 +9,25 @@ class MapSearchBar extends Component {
             searchValue: ''
         }
 
+        /* bind methods */
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
     
     handleSubmit(event){
-        if (event){
-            event.preventDefault()
-        }
+        /**
+         * call searchSubmit from props
+         * clear the text value
+         */
+
+        if (event) event.preventDefault()
+
         this.props.searchSubmit(this.state.searchValue)
-        this.setState({
-            searchValue: ''
-        })
+        this.setState({searchValue: ''})
     }
 
     handleChange(event){
+        /** keep input value in sync with state */
         this.setState({
             searchValue: event.target.value
         })
