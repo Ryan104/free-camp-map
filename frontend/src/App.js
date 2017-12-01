@@ -12,8 +12,9 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <div>
+        <div style={styles.pageContainer}>
           <AppBar 
+            style={styles.navbar}
             title="Camp Free"
             iconElementRight={<FlatButton label="Login" />} 
           />
@@ -36,13 +37,21 @@ class App extends Component {
 }
 
 const styles = {
+  pageContainer: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  navbar: {
+    flex: '0 1 65px'
+  },
   mapContainer: {
-
+    flex: '1 1 auto'
   },
   mapComponent: {
       height: '100%',
       minWidth: '100%',
-      position: 'absolute'
+      
   }
 }
 
