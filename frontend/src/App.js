@@ -1,58 +1,42 @@
 import React, { Component } from 'react';
-import GoogleMap from 'google-map-react';
-
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
-import Marker from './components/Marker'
+
+import MapContainer from './components/MapContainer';
+
+const APP_TITLE = "Camp Free"
 
 class App extends Component {
+  constructor(props){
+    super(props)
+    // TODO: Get markers from backend
+    // TODO: Get default center from browser location/local storage
+    this.state = {
+      mapDefaultCenter: {lat: 37.9375, lng: -107.8123},
+      markers: [
+        {lat: 37.9375, lng: -107.8123, text: "Hello Map!"},
+        {lat: 37.9333435, lng: -107.7943726, text: "Hello Map!"}
+      ],
+      appBarBtnTxt: "Login"
+    }
+  }
+
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-        <div style={styles.pageContainer}>
+      <MuiThemeProvider>
+        <div>
           <AppBar 
-            style={styles.navbar}
-            title="Camp Free"
-            iconElementRight={<FlatButton label="Login" />} 
+            title={APP_TITLE}
+            iconElementRight={<FlatButton label={this.state.appBarBtnTxt} />} 
           />
-          <div style={styles.mapContainer}>
-            <GoogleMap style={styles.mapComponent}
-              bootstrapURLKeys={{
-                key: process.env.REACT_APP_MAP_KEY,
-                language: 'en'
-              }}
-              defaultCenter={{lat: 37.9375, lng: -107.8123}}
-              defaultZoom={11}
-            >
-              <Marker lat={37.9375} lng={-107.8123} text={"Hello Map!"}  />
-            </GoogleMap>
-          </div>
+          <MapContainer 
+            markers={this.state.markers}
+            mapDefaultCenter={this.state.mapDefaultCenter} 
+          />
         </div>
       </MuiThemeProvider>
     );
-  }
-}
-
-const styles = {
-  pageContainer: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  navbar: {
-    flex: '0 1 65px'
-  },
-  mapContainer: {
-    flex: '1 1 auto'
-  },
-  mapComponent: {
-      height: '100%',
-      minWidth: '100%',
-      
   }
 }
 
