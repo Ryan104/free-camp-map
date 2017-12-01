@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
 
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
@@ -12,7 +10,7 @@ import Marker from './components/Marker'
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+      <MuiThemeProvider>
         <div style={styles.pageContainer}>
           <AppBar 
             style={styles.navbar}
