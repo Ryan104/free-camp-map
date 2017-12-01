@@ -15,12 +15,15 @@ class App extends Component {
     // TODO: Get default center from browser location/local storage
     this.state = {
       mapDefaultCenter: {lat: 37.9375, lng: -107.8123},
+      center: {lat: 37.9375, lng: -107.8123},
       markers: [
         {lat: 37.9375, lng: -107.8123, text: "Hello Map!"},
         {lat: 37.9333435, lng: -107.7943726, text: "Hello Map!"}
       ],
       appBarBtnTxt: "Login"
     }
+
+    this.searchSubmit = this.searchSubmit.bind(this);
   }
 
   mapClick({x, y, lat, lng, event}){
@@ -30,6 +33,17 @@ class App extends Component {
   searchSubmit(searchValue){
     /* Search google map */
     console.log(searchValue)
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchValue}&key=${process.env.REACT_APP_GEOCODE_KEY}`)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data.results[0].geometry.location);
+      let resultLocation = data.results[0].geometry.location;
+      this.setState({
+        center: resultLocation
+      })
+
+
+    })
   }
 
   render() {
@@ -45,7 +59,8 @@ class App extends Component {
           />
           <MapContainer 
             markers={this.state.markers}
-            mapDefaultCenter={this.state.mapDefaultCenter} 
+            mapDefaultCenter={this.state.mapDefaultCenter}
+            center={this.state.center}
             onClick={this.mapClick}
           />
         </div>
