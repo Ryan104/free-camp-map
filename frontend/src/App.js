@@ -1,39 +1,48 @@
 import React, { Component } from 'react';
-import GoogleMap from 'google-map-react';
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
-import Marker from './components/Marker'
+
+import MapContainer from './components/MapContainer';
 
 class App extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      markers: [
+        {
+          lat: 37.9375,
+          lng: -107.8123,
+          text: "Hello Map!"
+        },
+        {
+          lat: 37.9333435,
+          lng: -107.7943726,
+          text: "Hello Map!"
+        }
+      ]
+    }
+  }
+
   render() {
     return (
       <MuiThemeProvider>
         <div style={styles.pageContainer}>
+
           <AppBar 
             style={styles.navbar}
-            title="Camp Free"
+            title={APP_TITLE}
             iconElementRight={<FlatButton label="Login" />} 
           />
-          <div style={styles.mapContainer}>
-            <GoogleMap style={styles.mapComponent}
-              bootstrapURLKeys={{
-                key: process.env.REACT_APP_MAP_KEY,
-                language: 'en'
-              }}
-              defaultCenter={{lat: 37.9375, lng: -107.8123}}
-              defaultZoom={11}
-            >
-              <Marker lat={37.9375} lng={-107.8123} text={"Hello Map!"}  />
-            </GoogleMap>
-          </div>
+
+          <MapContainer markers={this.state.markers} />
         </div>
       </MuiThemeProvider>
     );
   }
 }
+
+const APP_TITLE = "Camp Free"
 
 const styles = {
   pageContainer: {
@@ -46,11 +55,6 @@ const styles = {
   },
   mapContainer: {
     flex: '1 1 auto'
-  },
-  mapComponent: {
-      height: '100%',
-      minWidth: '100%',
-      
   }
 }
 
