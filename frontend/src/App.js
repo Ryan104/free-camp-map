@@ -27,10 +27,10 @@ class App extends Component {
               //   key: process.env.REACT_APP_MAP_KEY,
               //   language: 'en'
               // }}
-              defaultCenter={{lat: 59.95, lng: 30.33}}
+              defaultCenter={{lat: 37.9375, lng: -107.8123}}
               defaultZoom={11}
             >
-              <Marker lat={59.95} lng={30.33} text={"Hello Map!"}  />
+              <Marker lat={37.9375} lng={-107.8123} text={"Hello Map!"}  />
             </GoogleMap>
           </div>
         </div>
