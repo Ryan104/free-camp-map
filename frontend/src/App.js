@@ -4,6 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 
 import MapContainer from './components/MapContainer';
+import MapSearchBar from './components/MapSearchBar';
 
 const APP_TITLE = "Camp Free"
 
@@ -22,17 +23,30 @@ class App extends Component {
     }
   }
 
+  mapClick({x, y, lat, lng, event}){
+    console.log(x, y, lat, lng, event)
+  }
+
+  searchSubmit(searchValue){
+    /* Search google map */
+    console.log(searchValue)
+  }
+
   render() {
     return (
       <MuiThemeProvider>
-        <div>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
           <AppBar 
             title={APP_TITLE}
             iconElementRight={<FlatButton label={this.state.appBarBtnTxt} />} 
           />
+          <MapSearchBar
+            searchSubmit={this.searchSubmit}
+          />
           <MapContainer 
             markers={this.state.markers}
             mapDefaultCenter={this.state.mapDefaultCenter} 
+            onClick={this.mapClick}
           />
         </div>
       </MuiThemeProvider>
