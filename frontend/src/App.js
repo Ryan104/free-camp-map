@@ -15,10 +15,7 @@ class App extends Component {
     // TODO: Get default center from browser location/local storage
     this.state = {
       mapDefaultCenter: {lat: 37.9375, lng: -107.8123},
-      markers: [
-        {lat: 37.9375, lng: -107.8123, text: "Hello Map!"},
-        {lat: 37.9333435, lng: -107.7943726, text: "Hello Map!"}
-      ],
+      markers: [],
       appBarBtnTxt: "Login"
     }
 
@@ -27,6 +24,10 @@ class App extends Component {
 
     /* bind methods */
     this.searchSubmit = this.searchSubmit.bind(this);
+  }
+
+  componentDidMount(){
+    this.updateMarkers();
   }
 
   // mapClick({x, y, lat, lng, event}){
@@ -39,17 +40,18 @@ class App extends Component {
      *   using google geocoding api
      * reposition the map at the coordinates 
      */
-    
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchValue}&key=${process.env.REACT_APP_GEOCODE_KEY}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.results[0].geometry.location){
-        this.setState({
-          center: data.results[0].geometry.location
-        })
-        this.updateMarkers();
-      }
-    })
+    if (searchValue){
+      fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchValue}&key=${process.env.REACT_APP_GEOCODE_KEY}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.results[0]){
+          this.setState({
+            center: data.results[0].geometry.location
+          })
+          this.updateMarkers();
+        }
+      })
+    }
   }
 
   updateMarkers(){
@@ -59,6 +61,17 @@ class App extends Component {
      */
 
     console.log('getMarkers()');
+
+    // call api/campsites?lat&lng&radius
+    let { lat, lng } = this.state.center;
+    let radius = 100; //miles
+    //fetch(`http://localhost:8000/api/campsites/?lat=${lat}&lng=${lng}&radius=${radius}`)
+    fetch('http://localhost:8000/api/campsites/')
+    // update state with results
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+    })
 
   }
 
