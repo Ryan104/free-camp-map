@@ -6,7 +6,7 @@ import { pinkA200 } from 'material-ui/styles/colors'
 
 export default class Marker extends Component {
     static propTypes = {
-        text: PropTypes.string
+        name: PropTypes.string
     }
 
     static defaultProps = {}
@@ -29,7 +29,7 @@ export default class Marker extends Component {
 
     render(){
         return (
-            <div>
+            <div data-id={this.props.id}>
                 <MapsPlace style={this.styles.marker} />
             </div>
         )

@@ -24,6 +24,7 @@ class App extends Component {
 
     /* bind methods */
     this.searchSubmit = this.searchSubmit.bind(this);
+    this.updateMarkers = this.updateMarkers.bind(this);
   }
 
   componentDidMount(){
@@ -65,12 +66,14 @@ class App extends Component {
     // call api/campsites?lat&lng&radius
     let { lat, lng } = this.state.center;
     let radius = 100; //miles
-    //fetch(`http://localhost:8000/api/campsites/?lat=${lat}&lng=${lng}&radius=${radius}`)
-    fetch('http://localhost:8000/api/campsites/')
+    fetch(`http://localhost:8000/api/campsites/?lat=${lat}&lng=${lng}&radius=${radius}`)
     // update state with results
     .then(res => res.json())
     .then(data => {
       console.log(data)
+      this.setState({
+        markers: data
+      })
     })
 
   }
