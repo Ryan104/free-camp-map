@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import MapContainer from './components/MapContainer';
 import MapSearchBar from './components/MapSearchBar';
 
-const APP_TITLE = "Camp Free"
+const APP_TITLE = "CAMP FREE"
 
 class App extends Component {
   constructor(props){
@@ -22,7 +22,7 @@ class App extends Component {
       appBarBtnTxt: "Login"
     }
 
-    /* initialize center */
+    /* initialize map center */
     this.state.center = this.state.mapDefaultCenter
 
     /* bind methods */
@@ -47,8 +47,19 @@ class App extends Component {
         this.setState({
           center: data.results[0].geometry.location
         })
+        this.updateMarkers();
       }
     })
+  }
+
+  updateMarkers(){
+    /**
+     * Updates state.makers by making an API call with the current
+     *   center and radius and expecting a new array of markers
+     */
+
+    console.log('getMarkers()');
+
   }
 
   render() {
