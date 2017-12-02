@@ -18,8 +18,11 @@ class Campsite(models.Model):
     updated_at = models.DateField(blank=True, null=True, default=None)
     pos_verify = models.IntegerField('Positive Verifications', default=0)
     neg_verify = models.IntegerField('Negative Verifications', default=0)
+    objects = models.Manager()
     # rating = models.FloatField(blank=True, null=True, default=None)
 
+    # TODO: add methods for increasing and decreasign verification
+    
     def __str__(self):
         """
         String representing model object
