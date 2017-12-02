@@ -1,8 +1,17 @@
 """
 Define Serializers used for representing data in the REST API
 """
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Campsite
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer for the User model
+    """
+    class Meta:
+        model = User
+        fields = ('username', 'is_authenticated')
 
 class CampsiteSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -23,4 +32,3 @@ class CampsiteSerializer(serializers.HyperlinkedModelSerializer):
             'created_at',
             'updated_at',
         )
-        
