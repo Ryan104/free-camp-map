@@ -2,24 +2,11 @@
 Viewsets for API
 """
 from rest_framework import generics
-from api.serializers import CampsiteSerializer
+from api.serializers import CampsiteSerializer, MarkerSerializer
 from .models import Campsite
 
-''' TODO: geojson
-GEOJSON:
-{
-  "type": "Feature",
-  "geometry": {
-    "type": "Point",
-    "coordinates": [125.6, 10.1]
-  },
-  "properties": {
-    "name": "Dinagat Islands"
-  }
-}
-'''
+# TODO: geojson
 
-# # Create your views here.
 # class UserViewSet(viewsets.ModelViewSet):
 #     """
 #     API endpoint that allows users to be viewed or edited.
@@ -29,14 +16,13 @@ GEOJSON:
 
 class CampsiteList(generics.ListAPIView):
     """
-    API endpoint that allows campsites to be viewed.
+    API endpoint that allows all campsites to be viewed.
     """
-    serializer_class = CampsiteSerializer
+    serializer_class = MarkerSerializer
 
     def get_queryset(self):
         """
-        Optionally return campsites based off the url params
-        lat, lng, radius
+        Optionally return campsites based off the url params (lat, lng, radius)
         """
         queryset = Campsite.objects.all()
         # TODO: filter by distance (https://www.movable-type.co.uk/scripts/latlong-db.html)
@@ -44,4 +30,15 @@ class CampsiteList(generics.ListAPIView):
         lng = self.request.query_params.get('lng', None)
         radius = self.request.query_params.get('radius', None)
         print(lat, lng, radius)
+        return queryset
+
+class CampsiteDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint that returns a single campsite's details by id
+    """
+    serializer_class = CampsiteSerializer
+    def get_queryset(self):
+        print(self.kwargs)
+        lookup = self.kwargs.get("pk")
+        queryset = Campsite.objects.filter(id=lookup)
         return queryset

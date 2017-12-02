@@ -13,19 +13,23 @@ from api.models import Campsite
 #         model = User
 #         fields = ('username', 'is_authenticated')
 
-class CampsiteSerializer(serializers.HyperlinkedModelSerializer):
+class MarkerSerializer(serializers.HyperlinkedModelSerializer):
     """
-    Serializer for the Campsite (marker) data
+    Serializer for Markers (basic campsit info)
     """
-    # id = serializers.IntegerField(read_only=True)
-    # name = serializers.CharField(max_length=200)
-    # creator = 
+    class Meta:
+        model = Campsite
+        fields = ('id', 'name', 'lat', 'lng')
+
+class CampsiteSerializer(serializers.ModelSerializer):
+    """
+    Serializer for detailed Campsite data
+    """
     creator = serializers.ReadOnlyField(source='creator.username')
     created_at = serializers.ReadOnlyField()
 
     class Meta:
         model = Campsite
-        # fields = ('name', 'creator', 'created_at')
         fields = (
             'name',
             'creator',

@@ -13,5 +13,6 @@ from api import views
 urlpatterns = [
     # get token with username=username&password=password
     url(r'^auth$', drf_views.obtain_auth_token, name='auth'),
-    url(r'^campsites', views.CampsiteList.as_view(), name='campsites'),
+    url(r'^campsites/$', views.CampsiteList.as_view(), name='campsites'),
+    url(r'^campsites/(?P<pk>[0-9]+)/$', views.CampsiteDetail.as_view(), name='campsite-detail')
 ]
