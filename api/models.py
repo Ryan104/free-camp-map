@@ -1,13 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Campsite(models.Model):
     """
     Model representing a campsite location
     """
     name = models.CharField(max_length=200)
-    creator = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
       # campsite can have one creator, user may have created many campsites
-    edited_by = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, default=None)
+    edited_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, default=None)
+    favorited_by = models.ManyToManyField(User)
+      # many users can favorite(save) many campsites
     lat = models.FloatField()
     lng = models.FloatField()
     description = models.TextField(max_length=2000, help_text='Enter a description of the site')
