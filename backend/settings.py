@@ -109,6 +109,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_RENDERER_CLASSES': (
+#         'rest_framework.renderers.JSONRenderer',
+#         'rest_framework.renderers.BrowsableAPIRenderer',
+#     )
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
