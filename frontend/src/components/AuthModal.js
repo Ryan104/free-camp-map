@@ -6,15 +6,44 @@ class AuthModal extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            slideIndex: 0
+            slideIndex: 0,
+            loginName: '',
+            loginPass: '',
+            signupName: '',
+            signupPass: '',
+            signupEmail: '',
+            submitButtonText: 'LOGIN'
         }
+
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSumbit = this.handleSumbit.bind(this);
     }
 
-    handleChange = (value) => {
+    handleSlideChange = (value) => {
+        let text = (value === 0) ? 'LOGIN' : 'SIGN UP';
         this.setState({
             slideIndex: value,
+            submitButtonText: text
         });
     };
+
+    handleInputChange(event){
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+    handleSumbit(){
+        
+        if (this.state.slideIndex === 0){
+            /* LOGIN */
+            this.props.loginUser(this.state.loginName, this.state.loginPass)
+        } else if (this.state.slideIndex === 1){
+            /* SIGNUP */
+            this.props.signupUser(this.state.signupName, this.state.signupEmail, this.state.signupPass)
+        }
+        this.props.handleClose();
+    }
 
     styles = {
         dialog: {
@@ -40,9 +69,9 @@ class AuthModal extends Component {
                 onClick={this.props.handleClose}
             />,
             <FlatButton
-                label="Submit"
+                label={this.state.submitButtonText}
                 primary={true}
-                onClick={this.props.handleClose}
+                onClick={this.handleSumbit}
             />,
         ]
 
@@ -55,7 +84,7 @@ class AuthModal extends Component {
                 bodyStyle={this.styles.dialogBody}
             >
                 <Tabs
-                    onChange={this.handleChange}
+                    onChange={this.handleSlideChange}
                     value={this.state.slideIndex}
                 >
                     <Tab label="Login" value={0} />
@@ -63,28 +92,43 @@ class AuthModal extends Component {
                 </Tabs>
                 <SwipeableViews
                     index={this.state.slideIndex}
-                    onChangeIndex={this.handleChange}
+                    onChangeIndex={this.handleSlideChange}
                 >
                     <form style={this.styles.authForm}>
                         <TextField
+                            name="loginName"
+                            value={this.state.loginName}
                             floatingLabelText="Username"
+                            onChange={this.handleInputChange}
                         />
                         <TextField
+                            name="loginPass"
+                            value={this.state.loginPass}
                             floatingLabelText="Password"
                             type="password"
+                            onChange={this.handleInputChange}
                         />
                     </form>
 
                     <form style={this.styles.authForm}>
                         <TextField
+                            name="signupName"
+                            value={this.state.signupName}
                             floatingLabelText="Username"
+                            onChange={this.handleInputChange}
                         />
                         <TextField
+                            name="signupEmail"
+                            value={this.state.signupEmail}
                             floatingLabelText="Email Address"
+                            onChange={this.handleInputChange}
                         />
                         <TextField
+                            name="signupPass"
+                            value={this.state.signupPass}
                             floatingLabelText="Password"
                             type="password"
+                            onChange={this.handleInputChange}
                         />
                     </form>
                 </SwipeableViews>

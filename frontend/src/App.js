@@ -44,6 +44,22 @@ class App extends Component {
     this.updateMarkers();
   }
 
+  login = (username, password) => {
+    /**
+     * Attempts to login a returning user
+     * Passes username and password to auth endpoint and get user token if successful
+     */
+    console.log('loggin in: ' + username)
+  }
+
+  signup = (username, email, password) => {
+    /**
+     * Attempts to create a new user
+     * Passes username, email and password to auth endpoint and get user token if successful
+     */
+    console.log('signing up: ' + username)
+  }
+
   // mapClick({x, y, lat, lng, event}){
   //   console.log(x, y, lat, lng, event)
   // }
@@ -121,6 +137,8 @@ class App extends Component {
           <AuthModal
             openAuthModal={this.state.openAuthModal}
             handleClose={() => {this.setState({openAuthModal: false})}}
+            loginUser={this.login}
+            signupUser={this.signup}
           />
 
           <MapSearchBar
