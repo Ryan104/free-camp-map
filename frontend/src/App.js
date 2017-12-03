@@ -11,8 +11,10 @@ import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 
 import MapContainer from './components/MapContainer';
 import MapSearchBar from './components/MapSearchBar';
+import AuthModal from './components/AuthModal';
 
 const APP_TITLE = "CAMP FREE"
+
 let BASE_URL = 'http://localhost:8000'
 if (process.env.NODE_ENV === 'production'){
   BASE_URL = ''
@@ -26,7 +28,8 @@ class App extends Component {
       mapDefaultCenter: {lat: 37.9375, lng: -107.8123},
       markers: [],
       appBarBtnTxt: "Login",
-      openDrawer: false
+      openDrawer: false,
+      openAuthModal: false
     }
 
     /* initialize map center */
@@ -108,12 +111,16 @@ class App extends Component {
               title={APP_TITLE}
               onLeftIconButtonTouchTap={() => {this.setState({openDrawer: !this.state.openDrawer})}}
             />
-            <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} />
+            <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} onClick={() => {this.setState({openAuthModal: true, openDrawer: false})}} />
             <MenuItem disabled={true} />
             <MenuItem primaryText="Map" leftIcon={<MapsMap />} />
             <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} />
             <MenuItem primaryText="Favorites" leftIcon={<ToggleStar />} />
           </Drawer>
+
+          <AuthModal
+            openAuthModal={this.state.openAuthModal}
+          />
 
           <MapSearchBar
             searchSubmit={this.searchSubmit}
