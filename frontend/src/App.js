@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import FlatButton from 'material-ui/FlatButton';
+import { AppBar, FlatButton, IconButton, Drawer, MenuItem } from 'material-ui';
+import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import ToggleStar from 'material-ui/svg-icons/toggle/star';
+import MapsAddLocation from 'material-ui/svg-icons/maps/add-location';
+import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 
 import MapContainer from './components/MapContainer';
 import MapSearchBar from './components/MapSearchBar';
@@ -15,12 +18,12 @@ if (process.env.NODE_ENV === 'production'){
 class App extends Component {
   constructor(props){
     super(props)
-    // TODO: Get markers from backend
     // TODO: Get default center from browser location/local storage
     this.state = {
       mapDefaultCenter: {lat: 37.9375, lng: -107.8123},
       markers: [],
-      appBarBtnTxt: "Login"
+      appBarBtnTxt: "Login",
+      openDrawer: false
     }
 
     /* initialize map center */
@@ -53,7 +56,8 @@ class App extends Component {
           this.setState({
             center: data.results[0].geometry.location
           })
-          this.updateMarkers();
+          // Currently, all markers are loaded at componentDidMount() so there is no need to reload them after search
+          //this.updateMarkers();
         }
       })
     }
@@ -65,8 +69,6 @@ class App extends Component {
      *   center and radius and expecting a new array of markers
      */
 
-    console.log('getMarkers()');
-
     // call api/campsites?lat&lng&radius
     let { lat, lng } = this.state.center;
     let radius = 100; //miles
@@ -74,12 +76,10 @@ class App extends Component {
     // update state with results
     .then(res => res.json())
     .then(data => {
-      console.log(data)
       this.setState({
         markers: data
       })
     })
-
   }
 
   render() {
@@ -88,12 +88,32 @@ class App extends Component {
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <AppBar 
             title={APP_TITLE}
+            iconElementLeft={
+              <IconButton onClick={() => {this.setState({openDrawer: !this.state.openDrawer})}}>
+                <NavigationMenu />
+              </IconButton>}
             iconElementRight={<FlatButton label={this.state.appBarBtnTxt} />} 
           />
+          <Drawer
+            docked={false}
+            open={this.state.openDrawer}
+            onRequestChange={(openDrawer) => this.setState({openDrawer})}
+          >
+            <AppBar title={APP_TITLE}
+              iconElementLeft={
+                <IconButton onClick={() => {this.setState({openDrawer: !this.state.openDrawer})}}>
+                  <NavigationMenu />
+                </IconButton>} 
+            />
+            <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} />
+            <MenuItem disabled={true} />
+            <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} />
+            <MenuItem primaryText="My Favorites" leftIcon={<ToggleStar />} />
+          </Drawer>
           <MapSearchBar
             searchSubmit={this.searchSubmit}
           />
-          <MapContainer 
+          <MapContainer
             markers={this.state.markers}
             mapDefaultCenter={this.state.mapDefaultCenter}
             center={this.state.center}
