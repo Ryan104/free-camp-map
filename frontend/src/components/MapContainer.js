@@ -18,7 +18,7 @@ const MapContainer = ({ markers = [], mapDefaultCenter, center }) => {
         defaultZoom={11}
     >
         {markers.map((marker, i) => (
-            <Marker key={i} lat={marker.lat} lng={marker.lng} text={marker.text} />
+            <Marker key={i} dataId={marker.id} lat={marker.lat} lng={marker.lng} text={marker.name} />
         ))}
     </GoogleMap>
     )
