@@ -4,7 +4,10 @@ import { AppBar, FlatButton, IconButton, Drawer, MenuItem } from 'material-ui';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import ToggleStar from 'material-ui/svg-icons/toggle/star';
 import MapsAddLocation from 'material-ui/svg-icons/maps/add-location';
+import MapsMap from 'material-ui/svg-icons/maps/map';
+import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
 import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
+
 
 import MapContainer from './components/MapContainer';
 import MapSearchBar from './components/MapSearchBar';
@@ -86,14 +89,19 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div style={{display: 'flex', flexDirection: 'column'}}>
+
           <AppBar 
             title={APP_TITLE}
+            iconElementRight={
+              <IconButton>
+                <MapsMyLocation />
+              </IconButton>} 
             iconElementLeft={
               <IconButton onClick={() => {this.setState({openDrawer: !this.state.openDrawer})}}>
                 <NavigationMenu />
               </IconButton>}
-            iconElementRight={<FlatButton label={this.state.appBarBtnTxt} />} 
           />
+
           <Drawer
             docked={false}
             open={this.state.openDrawer}
@@ -107,18 +115,22 @@ class App extends Component {
             />
             <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} />
             <MenuItem disabled={true} />
+            <MenuItem primaryText="Map" leftIcon={<MapsMap />} />
             <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} />
-            <MenuItem primaryText="My Favorites" leftIcon={<ToggleStar />} />
+            <MenuItem primaryText="Favorites" leftIcon={<ToggleStar />} />
           </Drawer>
+
           <MapSearchBar
             searchSubmit={this.searchSubmit}
           />
+
           <MapContainer
             markers={this.state.markers}
             mapDefaultCenter={this.state.mapDefaultCenter}
             center={this.state.center}
             onClick={this.mapClick}
           />
+
         </div>
       </MuiThemeProvider>
     );
