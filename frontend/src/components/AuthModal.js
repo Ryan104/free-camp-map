@@ -12,12 +12,12 @@ class AuthModal extends Component {
             <FlatButton
                 label="Cancel"
                 primary={true}
-                onClick={this.handleClose}
+                onClick={this.props.handleClose}
             />,
             <FlatButton
                 label="Submit"
                 primary={true}
-                onClick={this.handleClose}
+                onClick={this.props.handleClose}
             />,
         ]
         return (

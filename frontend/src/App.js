@@ -120,6 +120,7 @@ class App extends Component {
 
           <AuthModal
             openAuthModal={this.state.openAuthModal}
+            handleClose={() => {this.setState({openAuthModal: false})}}
           />
 
           <MapSearchBar
