@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { AppBar, FlatButton, IconButton, Drawer, MenuItem } from 'material-ui';
-import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import { AppBar, IconButton, Drawer, MenuItem } from 'material-ui';
+
+/* import material icons */
 import ToggleStar from 'material-ui/svg-icons/toggle/star';
 import MapsAddLocation from 'material-ui/svg-icons/maps/add-location';
 import MapsMap from 'material-ui/svg-icons/maps/map';
 import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
 import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
-
 
 import MapContainer from './components/MapContainer';
 import MapSearchBar from './components/MapSearchBar';
@@ -96,10 +96,7 @@ class App extends Component {
               <IconButton>
                 <MapsMyLocation />
               </IconButton>} 
-            iconElementLeft={
-              <IconButton onClick={() => {this.setState({openDrawer: !this.state.openDrawer})}}>
-                <NavigationMenu />
-              </IconButton>}
+            onLeftIconButtonTouchTap={() => {this.setState({openDrawer: !this.state.openDrawer})}}
           />
 
           <Drawer
@@ -107,11 +104,9 @@ class App extends Component {
             open={this.state.openDrawer}
             onRequestChange={(openDrawer) => this.setState({openDrawer})}
           >
-            <AppBar title={APP_TITLE}
-              iconElementLeft={
-                <IconButton onClick={() => {this.setState({openDrawer: !this.state.openDrawer})}}>
-                  <NavigationMenu />
-                </IconButton>} 
+            <AppBar 
+              title={APP_TITLE}
+              onLeftIconButtonTouchTap={() => {this.setState({openDrawer: !this.state.openDrawer})}}
             />
             <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} />
             <MenuItem disabled={true} />
