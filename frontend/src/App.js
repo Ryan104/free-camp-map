@@ -7,6 +7,10 @@ import MapContainer from './components/MapContainer';
 import MapSearchBar from './components/MapSearchBar';
 
 const APP_TITLE = "CAMP FREE"
+let BASE_URL = 'http://localhost:8000'
+if (process.env.NODE_ENV === 'production'){
+  BASE_URL = ''
+}
 
 class App extends Component {
   constructor(props){
@@ -66,7 +70,7 @@ class App extends Component {
     // call api/campsites?lat&lng&radius
     let { lat, lng } = this.state.center;
     let radius = 100; //miles
-    fetch(`http://localhost:8000/api/campsites/?lat=${lat}&lng=${lng}&radius=${radius}`)
+    fetch(`${BASE_URL}/api/campsites/?lat=${lat}&lng=${lng}&radius=${radius}`)
     // update state with results
     .then(res => res.json())
     .then(data => {
