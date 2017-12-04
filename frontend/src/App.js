@@ -44,12 +44,21 @@ class App extends Component {
     this.updateMarkers();
   }
 
+  /*** AUTH METHODS ***/
   login = (username, password) => {
     /**
      * Attempts to login a returning user
      * Passes username and password to auth endpoint and get user token if successful
      */
-    console.log('loggin in: ' + username)
+    console.log('loggin in: ' + username);
+
+    fetch(`${BASE_URL}/api/auth`, {
+      method: 'POST',
+      headers: new Headers({"Content-Type": "application/json"}),
+      body: JSON.stringify({username, password})
+    }).then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
   }
 
   signup = (username, email, password) => {
@@ -64,6 +73,7 @@ class App extends Component {
   //   console.log(x, y, lat, lng, event)
   // }
 
+  /********** MAP METHODS **********/
   searchSubmit(searchValue){
     /**
      * use the search value to get a set of coordinates
