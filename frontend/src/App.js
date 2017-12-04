@@ -99,6 +99,15 @@ class App extends Component {
      * Passes username, email and password to auth endpoint and get user token if successful
      */
     console.log('signing up: ' + username)
+
+    fetch(`${BASE_URL}/api/auth/signup`, {
+      method: 'POST',
+      headers: new Headers({"Content-Type": "application/json"}),
+      body: JSON.stringify({username, email, password})
+    }).then(res => {
+      console.log(res)
+      return res.json()
+    }).then((data) => console.log(data))
   }
 
   logout = () => {
