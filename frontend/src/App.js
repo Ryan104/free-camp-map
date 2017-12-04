@@ -56,7 +56,7 @@ class App extends Component {
      */
     console.log('loggin in: ' + username);
 
-    fetch(`${BASE_URL}/api/auth`, {
+    fetch(`${BASE_URL}/api/auth/login/`, {
       method: 'POST',
       headers: new Headers({"Content-Type": "application/json"}),
       body: JSON.stringify({username, password})
@@ -74,10 +74,10 @@ class App extends Component {
           snackbarText: 'Please enter a USERNAME and PASSWORD',
           snackbarOpen: true
         })
-      } else if (data.token){
+      } else if (data.key){
         /* Login successful */
         this.setState({
-          authToken: data.token,
+          authToken: data.key,
           username: username,
           openAuthModal: false,
           snackbarText: `Welcome back, ${username}!`,
