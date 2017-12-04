@@ -30,11 +30,13 @@ class App extends Component {
       appBarBtnTxt: "Login",
       openDrawer: false,
       openAuthModal: false,
+      authModalKey: 0,
       snackbarOpen: false,
       snackbarText: '',
       authToken: '',
       username: '',
-      signupValidation: {}
+      signupValidation: {},
+      loginValidation: {}
     }
 
     /* initialize map center */
@@ -66,14 +68,14 @@ class App extends Component {
       if (data.non_field_errors){
         /* typically invalid credentials error */
         this.setState({
-          snackbarText: 'INVALID username or password',
-          snackbarOpen: true
+          snackbarText: data.non_field_errors,
+          snackbarOpen: true,
+          loginValidation: {}
         })
       } else if (data.username || data.password){
-        /* typically requried field missing */
+        /* field validation error */
         this.setState({
-          snackbarText: 'Please enter a USERNAME and PASSWORD',
-          snackbarOpen: true
+          loginValidation: data
         })
       } else if (data.key){
         /* Login successful */
@@ -82,7 +84,8 @@ class App extends Component {
           username: username,
           openAuthModal: false,
           snackbarText: `Welcome back, ${username}!`,
-          snackbarOpen: true
+          snackbarOpen: true,
+          authModalKey: this.state.authModalKey + 1 // reinitializes authmodal
         })
       } else {
         console.log(data)
@@ -105,9 +108,8 @@ class App extends Component {
       method: 'POST',
       headers: new Headers({"Content-Type": "application/json"}),
       body: JSON.stringify({username, password1, password2, email})
-    }).then(res => {
-      return res.json()
-    }).then((data) => {
+    }).then(res => res.json())
+    .then((data) => {
       if (data.key){
         /* Signup successful */
         this.setState({
@@ -115,7 +117,8 @@ class App extends Component {
           username: username,
           openAuthModal: false,
           snackbarText: `Welcome, ${username}!`,
-          snackbarOpen: true
+          snackbarOpen: true,
+          authModalKey: this.state.authModalKey + 1 // reinitializes authmodal
         })
       } else if (data.non_field_errors){
         /* errors such as non matching passwords */
@@ -127,8 +130,6 @@ class App extends Component {
         /* field validation errors */
         this.setState({signupValidation: data})
       }
-
-      console.log(data)
     })
   }
 
@@ -228,11 +229,13 @@ class App extends Component {
           </Drawer>
 
           <AuthModal
+            key={this.state.authModalKey}
             openAuthModal={this.state.openAuthModal}
             handleClose={() => {this.setState({openAuthModal: false})}}
             loginUser={this.login}
             signupUser={this.signup}
             signupValidation={this.state.signupValidation}
+            loginValidation={this.state.loginValidation}
           />
 
           <MapSearchBar

@@ -100,6 +100,7 @@ class AuthModal extends Component {
                             value={this.state.loginName}
                             floatingLabelText="Username"
                             onChange={this.handleInputChange}
+                            errorText={this.props.loginValidation.username}
                         />
                         <TextField
                             name="loginPass"
@@ -107,6 +108,7 @@ class AuthModal extends Component {
                             floatingLabelText="Password"
                             type="password"
                             onChange={this.handleInputChange}
+                            errorText={this.props.loginValidation.password}
                         />
                     </form>
 
