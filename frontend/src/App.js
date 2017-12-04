@@ -33,7 +33,8 @@ class App extends Component {
       snackbarOpen: false,
       snackbarText: '',
       authToken: '',
-      username: ''
+      username: '',
+      signupValidation: {}
     }
 
     /* initialize map center */
@@ -93,23 +94,42 @@ class App extends Component {
     }).catch(err => console.log(err));
   }
 
-  signup = (username, email, password) => {
+  signup = (username, email, password1, password2) => {
     /**
      * Attempts to create a new user
      * Passes username, email and password to auth endpoint and get user token if successful
      */
     console.log('signing up: ' + username)
-    let password1 = password;
-    let password2 = password;
 
     fetch(`${BASE_URL}/api/auth/registration/`, {
       method: 'POST',
       headers: new Headers({"Content-Type": "application/json"}),
       body: JSON.stringify({username, password1, password2, email})
     }).then(res => {
-      console.log(res)
       return res.json()
-    }).then((data) => console.log(data))
+    }).then((data) => {
+      if (data.key){
+        /* Signup successful */
+        this.setState({
+          authToken: data.key,
+          username: username,
+          openAuthModal: false,
+          snackbarText: `Welcome, ${username}!`,
+          snackbarOpen: true
+        })
+      } else if (data.non_field_errors){
+        /* errors such as non matching passwords */
+        this.setState({
+          snackbarText: data.non_field_errors,
+          snackbarOpen: true
+        })
+      } else if (data.password1 || data.password2 || data.username || data.email){
+        /* field validation errors */
+        this.setState({signupValidation: data})
+      }
+
+      console.log(data)
+    })
   }
 
   logout = () => {
@@ -212,6 +232,7 @@ class App extends Component {
             handleClose={() => {this.setState({openAuthModal: false})}}
             loginUser={this.login}
             signupUser={this.signup}
+            signupValidation={this.state.signupValidation}
           />
 
           <MapSearchBar

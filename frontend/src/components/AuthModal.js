@@ -10,7 +10,8 @@ class AuthModal extends Component {
             loginName: '',
             loginPass: '',
             signupName: '',
-            signupPass: '',
+            signupPass1: '',
+            signupPass2: '',
             signupEmail: '',
             submitButtonText: 'LOGIN'
         }
@@ -40,7 +41,7 @@ class AuthModal extends Component {
             this.props.loginUser(this.state.loginName, this.state.loginPass)
         } else if (this.state.slideIndex === 1){
             /* SIGNUP */
-            this.props.signupUser(this.state.signupName, this.state.signupEmail, this.state.signupPass)
+            this.props.signupUser(this.state.signupName, this.state.signupEmail, this.state.signupPass1, this.state.signupPass2)
         }
     }
 
@@ -115,20 +116,31 @@ class AuthModal extends Component {
                             value={this.state.signupName}
                             floatingLabelText="Username"
                             onChange={this.handleInputChange}
+                            errorText={this.props.signupValidation.username}
                         />
                         <TextField
                             name="signupEmail"
                             value={this.state.signupEmail}
                             floatingLabelText="Email Address"
                             onChange={this.handleInputChange}
+                            errorText={this.props.signupValidation.email}
                         />
                         <TextField
-                            name="signupPass"
-                            value={this.state.signupPass}
+                            name="signupPass1"
+                            value={this.state.signupPass1}
                             floatingLabelText="Password"
                             type="password"
                             onChange={this.handleInputChange}
+                            errorText={this.props.signupValidation.password1}
                         />
+                        <TextField
+                            name="signupPass2"
+                            value={this.state.signupPass2}
+                            floatingLabelText="Confirm Password"
+                            type="password"
+                            onChange={this.handleInputChange}
+                            errorText={this.props.signupValidation.password2}
+                    />
                     </form>
                 </SwipeableViews>
             </Dialog>
