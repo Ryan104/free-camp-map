@@ -32,7 +32,8 @@ class App extends Component {
       openAuthModal: false,
       snackbarOpen: false,
       snackbarText: '',
-      authToken: ''
+      authToken: '',
+      username: ''
     }
 
     /* initialize map center */
@@ -63,21 +64,31 @@ class App extends Component {
     .then(data => {
       if (data.non_field_errors){
         /* typically invalid credentials error */
-        console.log(data.non_field_errors)
+        this.setState({
+          snackbarText: 'INVALID username or password',
+          snackbarOpen: true
+        })
       } else if (data.username || data.password){
         /* typically requried field missing */
-        console.log(data)
-      } else if (data.token){
-        console.log('loggin in!')
         this.setState({
-          authToken: data.token, 
+          snackbarText: 'Please enter a USERNAME and PASSWORD',
+          snackbarOpen: true
+        })
+      } else if (data.token){
+        /* Login successful */
+        this.setState({
+          authToken: data.token,
+          username: username,
           openAuthModal: false,
-          snackbarText: 'Loggin Successful!',
+          snackbarText: `Welcome back, ${username}!`,
           snackbarOpen: true
         })
       } else {
-        console.log('idk what happened')
         console.log(data)
+        this.setState({
+          snackbarText: 'Error Logging in',
+          snackbarOpen: true
+        })
       }
     }).catch(err => console.log(err));
   }
@@ -93,6 +104,7 @@ class App extends Component {
   logout = () => {
     this.setState({
       authToken: '',
+      username: '',
       openDrawer: false,
       snackbarOpen: true,
       snackbarText: 'Logout Successful!'
