@@ -13,6 +13,8 @@ import MapContainer from './components/MapContainer';
 import MapSearchBar from './components/MapSearchBar';
 import AuthModal from './components/AuthModal';
 import NewSiteModal from './components/NewSiteModal';
+import SaveSiteCard from './components/SaveSiteCard';
+
 
 const APP_TITLE = "CAMP FREE"
 
@@ -38,7 +40,8 @@ class App extends Component {
       authToken: '',
       username: '',
       signupValidation: {},
-      loginValidation: {}
+      loginValidation: {},
+      newMarkerLocation: {}
     }
 
     /* initialize map center */
@@ -47,6 +50,8 @@ class App extends Component {
     /* bind methods */
     this.searchSubmit = this.searchSubmit.bind(this);
     this.updateMarkers = this.updateMarkers.bind(this);
+    this.createNewMarker = this.createNewMarker.bind(this);
+    this.moveNewMarker = this.moveNewMarker.bind(this);
   }
 
   componentDidMount(){
@@ -194,12 +199,32 @@ class App extends Component {
     })
   }
 
+  createNewMarker(){
+    this.setState({
+      newMarkerLocation: this.state.center,
+      openDrawer: false
+    })
+  }
+
+  moveNewMarker(position){
+    this.setState({
+      newMarkerLocation: position
+    })
+  }
+
   render() {
     let loginMenuItem;
     if (this.state.authToken){
       loginMenuItem = <MenuItem primaryText="Logout" leftIcon={<ActionAccountCircle />} onClick={this.logout} />
     } else {
       loginMenuItem = <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} onClick={() => {this.setState({openAuthModal: true, openDrawer: false})}} />
+    }
+
+    let saveOrSearch;
+    if (this.state.newMarkerLocation.lat){
+      saveOrSearch = <SaveSiteCard />
+    } else {
+      saveOrSearch = <MapSearchBar searchSubmit={this.searchSubmit} />
     }
 
     return (
@@ -227,7 +252,7 @@ class App extends Component {
             {loginMenuItem}
             <MenuItem disabled={true} />
             <MenuItem primaryText="Map" leftIcon={<MapsMap />} />
-            <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} onClick={() => {this.setState({openCreateModal: true, openDrawer: false})}} />
+            <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} onClick={this.createNewMarker} />
             <MenuItem primaryText="Favorites" leftIcon={<ToggleStar />} />
           </Drawer>
 
@@ -244,18 +269,18 @@ class App extends Component {
           <NewSiteModal
             openCreateModal={this.state.openCreateModal}
             handleClose={() => {this.setState({openCreateModal: false})}}
-
           />
 
-          <MapSearchBar
-            searchSubmit={this.searchSubmit}
-          />
-
+          {saveOrSearch}
+          
           <MapContainer
             markers={this.state.markers}
+            newMarker={this.state.newMaker}
             mapDefaultCenter={this.state.mapDefaultCenter}
             center={this.state.center}
             onClick={this.mapClick}
+            newMarkerLocation={this.state.newMarkerLocation}
+            moveNewMarker={this.moveNewMarker}
           />
 
           <Snackbar

@@ -16,19 +16,12 @@ class MapContainer extends Component {
         this.state = {
             draggable: true,
         }
-
-        this.state.newMarker = this.props.center
     }
 
     mouseMove = (hoverKey, childProps, mouse) => {
         /* reposition/drag the new marker */
         if (childProps.name === DRAG_MARKER_NAME){
-            this.setState({
-                newMarker: {
-                    lat: mouse.lat,
-                    lng: mouse.lng
-                }
-            })
+            this.props.moveNewMarker({lat: mouse.lat, lng: mouse.lng})
         }
     }
     
@@ -45,7 +38,7 @@ class MapContainer extends Component {
     }
 
     render(){
-        let { markers = [], mapDefaultCenter, center } = this.props;
+        let { markers = [], mapDefaultCenter, center, newMarkerLocation } = this.props;
 
         return (
         <GoogleMap style={styles.mapComponent}
@@ -64,7 +57,7 @@ class MapContainer extends Component {
             {markers.map((marker, i) => (
                 <Marker key={i} dataId={marker.id} lat={marker.lat} lng={marker.lng} text={marker.name} />
             ))}
-            <DragMarker name={DRAG_MARKER_NAME} lat={this.state.newMarker.lat} lng={this.state.newMarker.lng} />
+            <DragMarker name={DRAG_MARKER_NAME} lat={newMarkerLocation.lat} lng={newMarkerLocation.lng} />
         </GoogleMap>
         )
     }
