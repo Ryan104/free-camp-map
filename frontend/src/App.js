@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { AppBar, IconButton, Drawer, MenuItem } from 'material-ui';
+import { AppBar, IconButton, Drawer, MenuItem, Snackbar } from 'material-ui';
 
 /* import material icons */
 import ToggleStar from 'material-ui/svg-icons/toggle/star';
@@ -29,7 +29,10 @@ class App extends Component {
       markers: [],
       appBarBtnTxt: "Login",
       openDrawer: false,
-      openAuthModal: false
+      openAuthModal: false,
+      snackbarOpen: false,
+      snackbarText: '',
+      authToken: ''
     }
 
     /* initialize map center */
@@ -57,8 +60,26 @@ class App extends Component {
       headers: new Headers({"Content-Type": "application/json"}),
       body: JSON.stringify({username, password})
     }).then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
+    .then(data => {
+      if (data.non_field_errors){
+        /* typically invalid credentials error */
+        console.log(data.non_field_errors)
+      } else if (data.username || data.password){
+        /* typically requried field missing */
+        console.log(data)
+      } else if (data.token){
+        console.log('loggin in!')
+        this.setState({
+          authToken: data.token, 
+          openAuthModal: false,
+          snackbarText: 'Loggin Successful!',
+          snackbarOpen: true
+        })
+      } else {
+        console.log('idk what happened')
+        console.log(data)
+      }
+    }).catch(err => console.log(err));
   }
 
   signup = (username, email, password) => {
@@ -69,9 +90,14 @@ class App extends Component {
     console.log('signing up: ' + username)
   }
 
-  // mapClick({x, y, lat, lng, event}){
-  //   console.log(x, y, lat, lng, event)
-  // }
+  logout = () => {
+    this.setState({
+      authToken: '',
+      openDrawer: false,
+      snackbarOpen: true,
+      snackbarText: 'Logout Successful!'
+    })
+  }
 
   /********** MAP METHODS **********/
   searchSubmit(searchValue){
@@ -115,6 +141,12 @@ class App extends Component {
   }
 
   render() {
+    let loginMenuItem;
+    if (this.state.authToken){
+      loginMenuItem = <MenuItem primaryText="Logout" leftIcon={<ActionAccountCircle />} onClick={this.logout} />
+    } else {
+      loginMenuItem = <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} onClick={() => {this.setState({openAuthModal: true, openDrawer: false})}} />
+    }
     return (
       <MuiThemeProvider>
         <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -137,7 +169,7 @@ class App extends Component {
               title={APP_TITLE}
               onLeftIconButtonTouchTap={() => {this.setState({openDrawer: !this.state.openDrawer})}}
             />
-            <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} onClick={() => {this.setState({openAuthModal: true, openDrawer: false})}} />
+            {loginMenuItem}
             <MenuItem disabled={true} />
             <MenuItem primaryText="Map" leftIcon={<MapsMap />} />
             <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} />
@@ -160,6 +192,13 @@ class App extends Component {
             mapDefaultCenter={this.state.mapDefaultCenter}
             center={this.state.center}
             onClick={this.mapClick}
+          />
+
+          <Snackbar
+            open={this.state.snackbarOpen}
+            message={this.state.snackbarText}
+            autoHideDuration={4000}
+            onRequestClose={() => {this.setState({snackbarOpen: false})}}
           />
 
         </div>

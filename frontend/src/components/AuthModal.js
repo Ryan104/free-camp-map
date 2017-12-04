@@ -42,7 +42,6 @@ class AuthModal extends Component {
             /* SIGNUP */
             this.props.signupUser(this.state.signupName, this.state.signupEmail, this.state.signupPass)
         }
-        this.props.handleClose();
     }
 
     styles = {
