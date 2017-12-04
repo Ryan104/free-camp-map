@@ -1,25 +1,16 @@
 """
 Define Serializers used for representing data as JSON
 """
-from django.contrib.auth.models import User
 from rest_framework import serializers
 from api.models import Campsite
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    """
-    Serializer for the User model
-    """
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password')
-
-class MarkerSerializer(serializers.HyperlinkedModelSerializer):
+class MarkerSerializer(serializers.ModelSerializer):
     """
     Serializer for Markers (basic campsit info)
     """
     class Meta:
         model = Campsite
-        fields = ('id', 'name', 'lat', 'lng')
+        fields = ('id', 'name', 'lat', 'lng', 'creator')
 
 class CampsiteSerializer(serializers.ModelSerializer):
     """

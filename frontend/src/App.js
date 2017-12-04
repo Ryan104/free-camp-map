@@ -215,6 +215,25 @@ class App extends Component {
 
   saveNewMarker(name){
     console.log('saving: ' + name)
+    /* post the site NAME, LAT, LNG */
+    /* token in header!!! */
+    fetch(`${BASE_URL}/api/campsites/`, {
+      method: 'POST',
+      headers: new Headers({
+        "Content-Type": "application/json",
+        "Authorization": `Token ${this.state.authToken}`
+      }),
+      body: JSON.stringify({
+        name,
+        lat: this.state.newMarkerLocation.lat,
+        lng: this.state.newMarkerLocation.lng
+      })
+    }).then(res => {
+      console.log(res)
+      return res.json()
+    }).then(data => {
+      console.log(data)
+    })
   }
 
   render() {
