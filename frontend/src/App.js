@@ -111,12 +111,20 @@ class App extends Component {
   }
 
   logout = () => {
-    this.setState({
-      authToken: '',
-      username: '',
-      openDrawer: false,
-      snackbarOpen: true,
-      snackbarText: 'Logout Successful!'
+    /**
+     * Logs out user
+     */
+
+    fetch(`${BASE_URL}/api/auth/logout/`, {method: 'POST'})
+    .then(res => res.json())
+    .then(data => {
+      this.setState({
+        authToken: '',
+        username: '',
+        openDrawer: false,
+        snackbarOpen: true,
+        snackbarText: data.detail
+      })
     })
   }
 
