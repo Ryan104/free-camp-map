@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import dj_database_url
-from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# Site ID for rest auth registration
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
 
 # Application definition
 
@@ -41,7 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'api.apps.ApiConfig',
+    'rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
 ]
 
 MIDDLEWARE = [
@@ -120,12 +129,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# REST_FRAMEWORK = {
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
 #     'DEFAULT_RENDERER_CLASSES': (
 #         'rest_framework.renderers.JSONRenderer',
 #         'rest_framework.renderers.BrowsableAPIRenderer',
 #     )
-# }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
