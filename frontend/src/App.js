@@ -12,6 +12,7 @@ import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 import MapContainer from './components/MapContainer';
 import MapSearchBar from './components/MapSearchBar';
 import AuthModal from './components/AuthModal';
+import NewSiteModal from './components/NewSiteModal';
 
 const APP_TITLE = "CAMP FREE"
 
@@ -31,6 +32,7 @@ class App extends Component {
       openDrawer: false,
       openAuthModal: false,
       authModalKey: 0,
+      openCreateModal: false,
       snackbarOpen: false,
       snackbarText: '',
       authToken: '',
@@ -199,6 +201,7 @@ class App extends Component {
     } else {
       loginMenuItem = <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} onClick={() => {this.setState({openAuthModal: true, openDrawer: false})}} />
     }
+
     return (
       <MuiThemeProvider>
         <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -224,7 +227,7 @@ class App extends Component {
             {loginMenuItem}
             <MenuItem disabled={true} />
             <MenuItem primaryText="Map" leftIcon={<MapsMap />} />
-            <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} />
+            <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} onClick={() => {this.setState({openCreateModal: true, openDrawer: false})}} />
             <MenuItem primaryText="Favorites" leftIcon={<ToggleStar />} />
           </Drawer>
 
@@ -236,6 +239,12 @@ class App extends Component {
             signupUser={this.signup}
             signupValidation={this.state.signupValidation}
             loginValidation={this.state.loginValidation}
+          />
+
+          <NewSiteModal
+            openCreateModal={this.state.openCreateModal}
+            handleClose={() => {this.setState({openCreateModal: false})}}
+
           />
 
           <MapSearchBar
