@@ -43,6 +43,9 @@ export default class Marker extends Component {
                 color: this.state.open ? pinkA400 : pinkA200,
                 width: this.state.open ? 60 : 30,
                 height: this.state.open ? 60 : 30,
+                position: 'absolute',
+                left: this.state.open ? -30 : -15,
+                top: this.state.open ? -30 : -15
             },
             popover: {
                 padding: 10
