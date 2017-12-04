@@ -52,6 +52,7 @@ class App extends Component {
     this.updateMarkers = this.updateMarkers.bind(this);
     this.createNewMarker = this.createNewMarker.bind(this);
     this.moveNewMarker = this.moveNewMarker.bind(this);
+    this.saveNewMarker = this.saveNewMarker.bind(this);
   }
 
   componentDidMount(){
@@ -212,6 +213,10 @@ class App extends Component {
     })
   }
 
+  saveNewMarker(name){
+    console.log('saving: ' + name)
+  }
+
   render() {
     let loginMenuItem;
     if (this.state.authToken){
@@ -222,7 +227,7 @@ class App extends Component {
 
     let saveOrSearch;
     if (this.state.newMarkerLocation.lat){
-      saveOrSearch = <SaveSiteCard />
+      saveOrSearch = <SaveSiteCard handleSubmit={this.saveNewMarker} handleCancel={() => this.setState({newMarkerLocation: {}})} />
     } else {
       saveOrSearch = <MapSearchBar searchSubmit={this.searchSubmit} />
     }

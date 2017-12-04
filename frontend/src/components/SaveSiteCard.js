@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Paper, RaisedButton, TextField } from 'material-ui'
+import { Card, CardText, CardActions, RaisedButton, TextField } from 'material-ui'
 
 class SaveSiteCard extends Component {
   constructor(props){
@@ -17,16 +17,21 @@ class SaveSiteCard extends Component {
 
   render(){
     return (
-    <Paper style={{zIndex: 5, maxWidth: 400, margin: '5px auto', padding: 5}}>
-      <p>Place the map marker in the desired location</p>
-      <TextField
-        name="siteNameValue"
-        floatingLabelText="Site Name"
-        value={this.state.siteNameValue}
-        onChange={this.handleInputChange}
-      />
-      <RaisedButton label="SAVE NEW SITE" />
-    </Paper>
+    <Card style={{zIndex: 5, maxWidth: 400, margin: '5px auto', padding: 5}}>
+      <CardText>
+        <i>Place the map marker in the desired location</i>
+        <TextField
+          name="siteNameValue"
+          floatingLabelText="Site Name"
+          value={this.state.siteNameValue}
+          onChange={this.handleInputChange}
+        />
+      </CardText>
+      <CardActions>
+        <RaisedButton label="CANCEL" onClick={this.props.handleCancel} />
+        <RaisedButton primary={true} label="SAVE NEW SITE" onClick={() => this.props.handleSubmit(this.state.siteNameValue)} />
+      </CardActions>
+    </Card>
     )
   }
 }
