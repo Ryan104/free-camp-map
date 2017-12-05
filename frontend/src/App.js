@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { AppBar, IconButton, Drawer, MenuItem, Snackbar } from 'material-ui';
+import { AppBar, IconButton, Snackbar } from 'material-ui';
 
 /* import material icons */
-import ToggleStar from 'material-ui/svg-icons/toggle/star';
-import MapsAddLocation from 'material-ui/svg-icons/maps/add-location';
-import MapsMap from 'material-ui/svg-icons/maps/map';
 import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
-import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 
 import MapContainer from './components/MapContainer';
 import MapSearchBar from './components/MapSearchBar';
 import AuthModal from './components/AuthModal';
 import NewSiteModal from './components/NewSiteModal';
 import SaveSiteCard from './components/SaveSiteCard';
+import SideMenu from './components/SideMenu';
 
 
 const APP_TITLE = "CAMP FREE"
@@ -242,13 +239,6 @@ class App extends Component {
   }
 
   render() {
-    let loginMenuItem;
-    if (this.state.authToken){
-      loginMenuItem = <MenuItem primaryText="Logout" leftIcon={<ActionAccountCircle />} onClick={this.logout} />
-    } else {
-      loginMenuItem = <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} onClick={() => {this.setState({openAuthModal: true, openDrawer: false})}} />
-    }
-
     let saveOrSearch;
     if (this.state.newMarkerLocation.lat){
       saveOrSearch = <SaveSiteCard handleSubmit={this.saveNewMarker} handleCancel={() => this.setState({newMarkerLocation: {}})} />
@@ -269,21 +259,16 @@ class App extends Component {
             onLeftIconButtonTouchTap={() => {this.setState({openDrawer: !this.state.openDrawer})}}
           />
 
-          <Drawer
-            docked={false}
+          <SideMenu
             open={this.state.openDrawer}
+            isSignedIn={!!this.state.authToken}
             onRequestChange={(openDrawer) => this.setState({openDrawer})}
-          >
-            <AppBar 
-              title={APP_TITLE}
-              onLeftIconButtonTouchTap={() => {this.setState({openDrawer: !this.state.openDrawer})}}
-            />
-            {loginMenuItem}
-            <MenuItem disabled={true} />
-            <MenuItem primaryText="Map" leftIcon={<MapsMap />} />
-            <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} onClick={this.createNewMarker} />
-            <MenuItem primaryText="Favorites" leftIcon={<ToggleStar />} />
-          </Drawer>
+            title={APP_TITLE}
+            onLeftIconButtonTouchTap={() => {this.setState({openDrawer: !this.state.openDrawer})}}
+            logoutClick={this.logout}
+            loginClick={() => {this.setState({openAuthModal: true, openDrawer: false})}}
+            newLocationClick={this.createNewMarker}
+          />
 
           <AuthModal
             key={this.state.authModalKey}
