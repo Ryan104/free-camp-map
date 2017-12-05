@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { AppBar, IconButton, Drawer, MenuItem, Snackbar } from 'material-ui';
+import { AppBar, IconButton, Snackbar } from 'material-ui';
 
 /* import material icons */
-import ToggleStar from 'material-ui/svg-icons/toggle/star';
-import MapsAddLocation from 'material-ui/svg-icons/maps/add-location';
-import MapsMap from 'material-ui/svg-icons/maps/map';
 import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
-import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 
 import MapContainer from './components/MapContainer';
 import MapSearchBar from './components/MapSearchBar';
 import AuthModal from './components/AuthModal';
+import NewSiteModal from './components/NewSiteModal';
+import SaveSiteCard from './components/SaveSiteCard';
+import SideMenu from './components/SideMenu';
+
 
 const APP_TITLE = "CAMP FREE"
 
@@ -31,12 +31,14 @@ class App extends Component {
       openDrawer: false,
       openAuthModal: false,
       authModalKey: 0,
+      openCreateModal: false,
       snackbarOpen: false,
       snackbarText: '',
       authToken: '',
       username: '',
       signupValidation: {},
-      loginValidation: {}
+      loginValidation: {},
+      newMarkerLocation: null
     }
 
     /* initialize map center */
@@ -45,6 +47,10 @@ class App extends Component {
     /* bind methods */
     this.searchSubmit = this.searchSubmit.bind(this);
     this.updateMarkers = this.updateMarkers.bind(this);
+    this.createNewMarker = this.createNewMarker.bind(this);
+    this.moveNewMarker = this.moveNewMarker.bind(this);
+    this.saveNewMarker = this.saveNewMarker.bind(this);
+    this.mapMove = this.mapMove.bind(this);
   }
 
   componentDidMount(){
@@ -192,13 +198,59 @@ class App extends Component {
     })
   }
 
+  createNewMarker(){
+    this.setState({
+      newMarkerLocation: this.state.center,
+      openDrawer: false
+    })
+  }
+
+  moveNewMarker(position){
+    this.setState({
+      newMarkerLocation: position
+    })
+  }
+
+  mapMove(newCenter){
+    this.setState({center: newCenter})
+  }
+
+  saveNewMarker(name){
+    console.log('saving: ' + name)
+    /* post the site NAME, LAT, LNG */
+    fetch(`${BASE_URL}/api/campsites/`, {
+      method: 'POST',
+      headers: new Headers({
+        "Content-Type": "application/json",
+        "Authorization": `Token ${this.state.authToken}`
+      }),
+      body: JSON.stringify({
+        name,
+        lat: this.state.newMarkerLocation.lat,
+        lng: this.state.newMarkerLocation.lng
+      })
+    }).then(res => {
+      return res.json()
+    }).then(data => {
+      if (data.id){
+        /* success */
+        this.setState({newMarkerLocation: null});
+        this.updateMarkers();
+      } else {
+        console.log('error saving new site');
+        console.log(data)
+      }
+    })
+  }
+
   render() {
-    let loginMenuItem;
-    if (this.state.authToken){
-      loginMenuItem = <MenuItem primaryText="Logout" leftIcon={<ActionAccountCircle />} onClick={this.logout} />
+    let saveOrSearch;
+    if (this.state.newMarkerLocation){
+      saveOrSearch = <SaveSiteCard handleSubmit={this.saveNewMarker} handleCancel={() => this.setState({newMarkerLocation: {}})} />
     } else {
-      loginMenuItem = <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} onClick={() => {this.setState({openAuthModal: true, openDrawer: false})}} />
+      saveOrSearch = <MapSearchBar searchSubmit={this.searchSubmit} />
     }
+
     return (
       <MuiThemeProvider>
         <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -212,21 +264,16 @@ class App extends Component {
             onLeftIconButtonTouchTap={() => {this.setState({openDrawer: !this.state.openDrawer})}}
           />
 
-          <Drawer
-            docked={false}
+          <SideMenu
             open={this.state.openDrawer}
+            isSignedIn={!!this.state.authToken}
             onRequestChange={(openDrawer) => this.setState({openDrawer})}
-          >
-            <AppBar 
-              title={APP_TITLE}
-              onLeftIconButtonTouchTap={() => {this.setState({openDrawer: !this.state.openDrawer})}}
-            />
-            {loginMenuItem}
-            <MenuItem disabled={true} />
-            <MenuItem primaryText="Map" leftIcon={<MapsMap />} />
-            <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} />
-            <MenuItem primaryText="Favorites" leftIcon={<ToggleStar />} />
-          </Drawer>
+            title={APP_TITLE}
+            onLeftIconButtonTouchTap={() => {this.setState({openDrawer: !this.state.openDrawer})}}
+            logoutClick={this.logout}
+            loginClick={() => {this.setState({openAuthModal: true, openDrawer: false})}}
+            newLocationClick={this.createNewMarker}
+          />
 
           <AuthModal
             key={this.state.authModalKey}
@@ -238,15 +285,21 @@ class App extends Component {
             loginValidation={this.state.loginValidation}
           />
 
-          <MapSearchBar
-            searchSubmit={this.searchSubmit}
+          <NewSiteModal
+            openCreateModal={this.state.openCreateModal}
+            handleClose={() => {this.setState({openCreateModal: false})}}
           />
 
+          {saveOrSearch}
+          
           <MapContainer
             markers={this.state.markers}
             mapDefaultCenter={this.state.mapDefaultCenter}
             center={this.state.center}
             onClick={this.mapClick}
+            newMarkerLocation={this.state.newMarkerLocation}
+            moveNewMarker={this.moveNewMarker}
+            mapMove={this.mapMove}
           />
 
           <Snackbar
