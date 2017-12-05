@@ -1,49 +1,58 @@
 # free-camp-map
 An open source web app where tent campers can share the location of free camp sites.
 
-Try the app ***HERE***
+Try a current version on Heroku ***[HERE](https://camp-free.herokuapp.com/)***
+
+![ScreenShot](./mockups/campfree.png)
 
 ## contibuting / install instructions
 Please contribute to the map data by signing up and adding some spots.
 
 If you'd like to contribute to the application, follow the setup instructions:
 
-1) Fork and clone the repo
-2) `cd campmap && npm install`
-3) Start python env
-4) `cd backend && python3 manage.py runserver`
-.
+* **Fork and clone the repo**
 
-.
+*FRONTEND:*
+1) `cd frontend && npm install`
+2) `npm run start`
 
-.
+*BACKEND:*
+1) Setup local postgres db
+2) Start your local python env
+3) `pip install -r requirements.txt`
+4) `python manage.py makemigrations`
+5) `python manage.py migrate`
+6) `python manage.py runserver`
 
-.
+*BUILD:*
+1) `cd frontend && npm run build`
+2) `cd .. && python movebuild.py` (moves the react build files into the appropriate static folder)
 
 
 ## Technology used
 #### Frontend:
-* React/Redux
+* React
 * create-react-app
 * [google-map-react](https://github.com/istarkov/google-map-react)
 * Google Maps API (api key required)
-* Material-Ui
+* [Material-Ui](http://www.material-ui.com/#/)
 
 #### Backend:
-* Django / Django-REST
-* Postgres / PostGIS
-* ¿¿graphQL??
+* Django
+* [Django Rest Framework](http://www.django-rest-framework.org/)
+* [Django Rest Auth](http://django-rest-auth.readthedocs.io/en/latest/)
+* Postgres
 
 ## User stories
-* [ ] I can view a map
-* [ ] I can search for a location on the map
-* [ ] I can see nearby campsites as pins on the map
+* [X] I can view a map
+* [X] I can search for a location on the map
+* [X] I can see nearby campsites as pins on the map
 * [ ] I can click on a pin for more details about the campsite
 * [ ] I can return to the map from the detail view
 * [ ] I can share the link to a campsite
-* [ ] I can login/signup
+* [X] I can login/signup
 * [ ] I can save/star campsites
-* [ ] I can add a campsite to the map
+* [X] I can add a campsite to the map
 * [ ] I can rate campsites I've been to
 * [ ] I can comment on a campsite
 * [ ] I can submit edits to campsite info
