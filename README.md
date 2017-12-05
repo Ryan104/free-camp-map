@@ -44,6 +44,9 @@ If you'd like to contribute to the application, follow the setup instructions:
 * Postgres
 
 ## User stories
+<details>
+<summary>Show User Stories</summary>
+
 * [X] I can view a map
 * [X] I can search for a location on the map
 * [X] I can see nearby campsites as pins on the map
@@ -65,9 +68,16 @@ If you'd like to contribute to the application, follow the setup instructions:
 * [ ] Sites I create will be visually distinct from other sites
 * [ ] I can see how long its been since the campsite has been updated
 
-Trello: https://trello.com/b/tisXBo5l/free-sites
+</details>
+
+
+Trello Board: https://trello.com/b/tisXBo5l/free-sites
 
 ## Data Models
+
+<details>
+<summary>Show Data Models (User, Campsite, Comment, Rating)</summary>
+
 #### User
 - username: *string*
 - google_id: *string*
@@ -98,10 +108,15 @@ Trello: https://trello.com/b/tisXBo5l/free-sites
 - campsite: *Campsite_id*
 - rater: *User_id*
 
+</details>
+
 #### ERD (mvp):
 ![ERD](./mockups/mvp-erd.png)
 
 ## Wireframes/Mockups
+<details>
+<summary>Show Wireframes</summary>
+
 #### Mobile
 ![mobile-mock](./mockups/mobile-mockup.png)
 
@@ -116,3 +131,5 @@ Trello: https://trello.com/b/tisXBo5l/free-sites
 
 #### Favorites list
 ![favorites-mock](./mockups/favorites-mockup.png)
+
+</details>
