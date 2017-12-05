@@ -28,8 +28,6 @@ class CampsiteList(generics.ListCreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        print(self.request.user)
-        print(serializer)
         serializer.save(creator=self.request.user)
 
 class CampsiteDetail(generics.RetrieveUpdateDestroyAPIView):

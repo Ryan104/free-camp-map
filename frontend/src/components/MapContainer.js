@@ -15,6 +15,7 @@ class MapContainer extends Component {
         super(props)
         this.state = {
             draggable: true,
+            currentCenter: {}
         }
     }
 
@@ -37,6 +38,10 @@ class MapContainer extends Component {
         this.setState({draggable: true})
     }
 
+    onMapChange = ({ center }) => {
+        this.props.mapMove(center)
+    }
+
     render(){
         let { markers = [], mapDefaultCenter, center, newMarkerLocation } = this.props;
 
@@ -48,11 +53,12 @@ class MapContainer extends Component {
             }}
             defaultCenter={mapDefaultCenter}
             center={center}
-            defaultZoom={11}
+            defaultZoom={13}
             onChildMouseDown={this.mouseDown}
             onChildMouseUp={this.mouseUp}
             onChildMouseMove={this.mouseMove}
             draggable={this.state.draggable}
+            onChange={this.onMapChange}
         >
             {markers.map((marker, i) => (
                 <Marker key={i} dataId={marker.id} lat={marker.lat} lng={marker.lng} text={marker.name} />

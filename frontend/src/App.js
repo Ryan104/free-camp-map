@@ -53,6 +53,7 @@ class App extends Component {
     this.createNewMarker = this.createNewMarker.bind(this);
     this.moveNewMarker = this.moveNewMarker.bind(this);
     this.saveNewMarker = this.saveNewMarker.bind(this);
+    this.mapMove = this.mapMove.bind(this);
   }
 
   componentDidMount(){
@@ -213,6 +214,10 @@ class App extends Component {
     })
   }
 
+  mapMove(newCenter){
+    this.setState({center: newCenter})
+  }
+
   saveNewMarker(name){
     console.log('saving: ' + name)
     /* post the site NAME, LAT, LNG */
@@ -305,6 +310,7 @@ class App extends Component {
             onClick={this.mapClick}
             newMarkerLocation={this.state.newMarkerLocation}
             moveNewMarker={this.moveNewMarker}
+            mapMove={this.mapMove}
           />
 
           <Snackbar
