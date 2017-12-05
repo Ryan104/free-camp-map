@@ -42,6 +42,12 @@ class MapContainer extends Component {
         this.props.mapMove(center)
     }
 
+    renderNewMarker = (newMarkerLocation) => {
+        if (newMarkerLocation){
+            return <DragMarker name={DRAG_MARKER_NAME} lat={newMarkerLocation.lat} lng={newMarkerLocation.lng} />
+        }
+    }
+
     render(){
         let { markers = [], mapDefaultCenter, center, newMarkerLocation } = this.props;
 
@@ -63,7 +69,8 @@ class MapContainer extends Component {
             {markers.map((marker, i) => (
                 <Marker key={i} dataId={marker.id} lat={marker.lat} lng={marker.lng} text={marker.name} />
             ))}
-            <DragMarker name={DRAG_MARKER_NAME} lat={newMarkerLocation.lat} lng={newMarkerLocation.lng} />
+            {this.renderNewMarker(newMarkerLocation)}
+            
         </GoogleMap>
         )
     }

@@ -38,7 +38,7 @@ class App extends Component {
       username: '',
       signupValidation: {},
       loginValidation: {},
-      newMarkerLocation: {}
+      newMarkerLocation: null
     }
 
     /* initialize map center */
@@ -218,7 +218,6 @@ class App extends Component {
   saveNewMarker(name){
     console.log('saving: ' + name)
     /* post the site NAME, LAT, LNG */
-    /* token in header!!! */
     fetch(`${BASE_URL}/api/campsites/`, {
       method: 'POST',
       headers: new Headers({
@@ -231,16 +230,22 @@ class App extends Component {
         lng: this.state.newMarkerLocation.lng
       })
     }).then(res => {
-      console.log(res)
       return res.json()
     }).then(data => {
-      console.log(data)
+      if (data.id){
+        /* success */
+        this.setState({newMarkerLocation: null});
+        this.updateMarkers();
+      } else {
+        console.log('error saving new site');
+        console.log(data)
+      }
     })
   }
 
   render() {
     let saveOrSearch;
-    if (this.state.newMarkerLocation.lat){
+    if (this.state.newMarkerLocation){
       saveOrSearch = <SaveSiteCard handleSubmit={this.saveNewMarker} handleCancel={() => this.setState({newMarkerLocation: {}})} />
     } else {
       saveOrSearch = <MapSearchBar searchSubmit={this.searchSubmit} />
@@ -289,7 +294,6 @@ class App extends Component {
           
           <MapContainer
             markers={this.state.markers}
-            newMarker={this.state.newMaker}
             mapDefaultCenter={this.state.mapDefaultCenter}
             center={this.state.center}
             onClick={this.mapClick}

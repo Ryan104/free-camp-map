@@ -19,7 +19,7 @@ class SaveSiteCard extends Component {
     return (
     <Card style={{zIndex: 5, maxWidth: 400, margin: '5px auto', padding: 5}}>
       <CardText>
-        <i>Place the map marker in the desired location</i>
+        <i>Drag the map marker to the desired location</i>
         <TextField
           name="siteNameValue"
           floatingLabelText="Site Name"

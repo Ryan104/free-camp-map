@@ -7,22 +7,24 @@ import MapsAddLocation from 'material-ui/svg-icons/maps/add-location';
 import MapsMap from 'material-ui/svg-icons/maps/map';
 import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle';
 
-const SideMenu = (props) => {
-  let menuItems;
+const renderMenuItems = (props) => {
+  /* conditionaly set sidebar options from Auth status */
   if (props.isSignedIn){
-    menuItems = (
+    return (
       <div>
-      <MenuItem primaryText="Logout" leftIcon={<ActionAccountCircle />} onClick={props.logoutClick} />
-      <MenuItem disabled={true} />
-      <MenuItem primaryText="Map" leftIcon={<MapsMap />} />
-      <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} onClick={props.newLocationClick} />
-      <MenuItem primaryText="Favorites" leftIcon={<ToggleStar />} />
+        <MenuItem primaryText="Logout" leftIcon={<ActionAccountCircle />} onClick={props.logoutClick} />
+        <MenuItem disabled={true} />
+        <MenuItem primaryText="Map" leftIcon={<MapsMap />} />
+        <MenuItem primaryText="Add Site" leftIcon={<MapsAddLocation />} onClick={props.newLocationClick} />
+        <MenuItem primaryText="Favorites" leftIcon={<ToggleStar />} />
       </div>
     )
   } else {
-    menuItems = (<MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} onClick={props.loginClick} />)
+    return <MenuItem primaryText="Login" leftIcon={<ActionAccountCircle />} onClick={props.loginClick} />
   }
+}
 
+const SideMenu = (props) => {
   return (
     <Drawer
       docked={false}
@@ -33,7 +35,7 @@ const SideMenu = (props) => {
         title={props.title}
         onLeftIconButtonTouchTap={props.onLeftIconButtonTouchTap}
       />
-      {menuItems}
+      {renderMenuItems(props)}
     </Drawer>
   )
 }
