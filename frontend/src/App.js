@@ -13,7 +13,7 @@ import SaveSiteCard from './components/SaveSiteCard';
 import SideMenu from './components/SideMenu';
 
 
-const APP_TITLE = "CAMP FREE"
+const APP_TITLE = "CAMP FINDER"
 
 let BASE_URL = 'http://localhost:8000'
 if (process.env.NODE_ENV === 'production'){
@@ -257,6 +257,7 @@ class App extends Component {
 
           <AppBar 
             title={APP_TITLE}
+            titleStyle={{fontWeight: '200'}}
             iconElementRight={
               <IconButton>
                 <MapsMyLocation />

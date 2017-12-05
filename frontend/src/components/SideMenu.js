@@ -33,6 +33,7 @@ const SideMenu = (props) => {
     >
       <AppBar 
         title={props.title}
+        titleStyle={{fontWeight: '200'}}
         onLeftIconButtonTouchTap={props.onLeftIconButtonTouchTap}
       />
       {renderMenuItems(props)}
